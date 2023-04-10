@@ -90,7 +90,7 @@ Console.Write("Введите целое число (N > 0): ");
 string input = Console.ReadLine();
 int n = Convert.ToInt32(input);
 
-while (count < n)
+while (count <= n)
 {
     Console.WriteLine(count);
     count += 2;
