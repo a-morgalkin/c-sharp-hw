@@ -6,76 +6,70 @@ int result = Convert.ToInt32(input);
 return result;
 }
 
-void WriteError(string message)
-{
-    Console.ForegroundColor = ConsoleColor.Red;
-    Console.WriteLine(message);
-    Console.ResetColor();    
-}
-
-// Задача 10: Напишите программу, которая принимает на вход трёхзначное число 
-// и на выходе показывает вторую цифру этого числа.
-// 456 -> 5
-// 782 -> 8
-// 918 -> 1
+// Задача 19
+// Напишите программу, которая принимает на вход пятизначное число и проверяет, является ли оно палиндромом.
+// 14212 -> нет
+// 12821 -> да
+// 23432 -> да
 /*
-int GetYfromXYZ(int xyz)
+int ReverseNumber(int number)
 {
-    return (xyz % 100) / 10;
-}
-
-int number;
-int digit;
-Console.Write("Enter a three-digit number> ");
-string input = Console.ReadLine();
-if (int.TryParse(input, out number) && number >= 100 && number < 1000)
-    Console.WriteLine($"Second digit is {GetYfromXYZ(number)}");
-else 
-    WriteError("It's not a number or three-digit number");
-
-*/
-
-// Задача 13: Напишите программу, которая выводит третью цифру заданного числа 
-// или сообщает, что третьей цифры нет.
-// 645 -> 5
-// 78 -> третьей цифры нет
-// 32679 -> 6
-
-int GetThirdDigit(int number)
-{
-int result = -1;
-number = Math.Abs(number);
-if (number > 99)
+    int result = 0;
+    while (number > 0)
     {
-    while (number > 999)
-        number = number / 10;
-    result = number % 10;
+        result *= 10;
+        result += number % 10;
+        number /= 10;
     }
-return result;
+    return result;
 }
 
-int number = PromptInt("Enter a number > ");
-int digit = GetThirdDigit(number);
-if (digit > -1)
-    Console.WriteLine($"Third digit is: {digit}");
-else
-    WriteError("третьей цифры нет");
-
-
-// Задача 15: Напишите программу, которая принимает на вход цифру, обозначающую день недели, 
-// и проверяет, является ли этот день выходным.
-// 6 -> да
-// 7 -> да
-// 1 -> нет
-/*
-bool IsWeekEnd(int dayOfWeek)
+bool IsPalindrom(int number)
 {
-    return (dayOfWeek == 7) | (dayOfWeek == 6);
+    return number == ReverseNumber(number);
 }
 
-int inputDay = PromptInt("Input a day number > ");
-if (IsWeekEnd(inputDay))
-    Console.WriteLine("Congratulations, it's weekend day");
-else
-    Console.WriteLine("it's not a weekend :()");
+int number = PromptInt("input a number > ");
+Console.WriteLine(IsPalindrom(number)?"Fantastic! It's a palindrom number":"Ups... It's not a palindrom number");
 */
+
+// Задача 21
+// Напишите программу, которая принимает на вход координаты двух точек и находит расстояние между ними в 3D пространстве.
+// A (7,-5, 0); B (1,-1,9) -> 11.53
+/*
+double GetDistance3D(double x1, double y1, double z1, double x2, double y2, double z2)
+{
+    return(Math.Sqrt(Math.Pow(x2-x1, 2) + Math.Pow(y2-y1, 2) + Math.Pow(z2-z1, 2)));
+}
+
+double PromptDouble(string message)
+{
+Console.Write(message);
+string input = Console.ReadLine();
+return Convert.ToDouble(input);
+}
+
+double x1 = PromptDouble("Input A(x) > ");
+double y1 = PromptDouble("Input A(y) > ");
+double z1 = PromptDouble("Input A(z) > ");
+double x2 = PromptDouble("Input B(x) > ");
+double y2 = PromptDouble("Input B(y) > ");
+double z2 = PromptDouble("Input B(z) > ");
+
+Console.WriteLine($"The distance between A and B is: {Math.Round(GetDistance3D(x1,y1,z1,x2,y2,z2), 2)}");
+*/
+// Напишите программу, которая принимает на вход число (N) и выдаёт таблицу кубов чисел от 1 до N.
+// 3 -> 1, 8, 27
+// 5 -> 1, 8, 27, 64, 125
+
+void PrintPowerTable(int number, int power)
+{
+    int i=1;
+    while (i <= number)
+    {
+        Console.WriteLine($"{i} ^ {power} = {Math.Pow(i, power)}");
+        i++;
+    }
+}
+int num = PromptInt("Enter a N > ");
+PrintPowerTable(num, 3);
