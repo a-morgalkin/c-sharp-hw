@@ -6,70 +6,68 @@ int result = Convert.ToInt32(input);
 return result;
 }
 
-// Задача 19
-// Напишите программу, которая принимает на вход пятизначное число и проверяет, является ли оно палиндромом.
-// 14212 -> нет
-// 12821 -> да
-// 23432 -> да
+// Задача 25: Напишите цикл, который принимает на вход два числа (A и B) и 
+// возводит число A в натуральную степень B.
+// 3, 5 -> 243 (3⁵)
+// 2, 4 -> 16
 /*
-int ReverseNumber(int number)
+string exit = "n";
+int numA;
+int numB;
+while (exit != "y")
 {
-    int result = 0;
-    while (number > 0)
+    numA = PromptInt("Enter a number A > ");
+    numB = PromptInt("Enter a number B > ");
+    Console.WriteLine($"{numA} ^ {numB} = {Math.Pow(numA, numB)}");
+    Console.Write("Exit ? (y/n) > ");
+    exit = Console.ReadLine().ToLower();
+}
+*/
+
+// Задача 27: Напишите программу, которая принимает на вход число и 
+// выдаёт сумму цифр в числе.
+// 452 -> 11
+// 82 -> 10
+// 9012 -> 12
+/*
+int SumDigits(int num)
+{
+    int result =0;
+    num = Math.Abs(num);
+    while (num != 0)
     {
-        result *= 10;
-        result += number % 10;
-        number /= 10;
+        result += num % 10;
+        num /= 10;
     }
     return result;
 }
-
-bool IsPalindrom(int number)
-{
-    return number == ReverseNumber(number);
-}
-
-int number = PromptInt("input a number > ");
-Console.WriteLine(IsPalindrom(number)?"Fantastic! It's a palindrom number":"Ups... It's not a palindrom number");
+int num = PromptInt("Enter a number > ");
+Console.WriteLine($"Sum of digtits : {SumDigits(num)}");
 */
 
-// Задача 21
-// Напишите программу, которая принимает на вход координаты двух точек и находит расстояние между ними в 3D пространстве.
-// A (7,-5, 0); B (1,-1,9) -> 11.53
-/*
-double GetDistance3D(double x1, double y1, double z1, double x2, double y2, double z2)
+// Задача 29: Напишите программу, 
+// которая задаёт массив из 8 элементов и выводит их на экран.
+// 1, 2, 5, 7, 19 -> [1, 2, 5, 7, 19]
+// 6, 1, 33 -> [6, 1, 33]
+
+void FillArray(int[] array, int max)
 {
-    return(Math.Sqrt(Math.Pow(x2-x1, 2) + Math.Pow(y2-y1, 2) + Math.Pow(z2-z1, 2)));
+    Random rnd = new Random();
+    for (int i=0; i<array.Length; i++)
+        array[i]=rnd.Next(max+1);
+    return;
 }
 
-double PromptDouble(string message)
+void PrintArray(int[] array)
 {
-Console.Write(message);
-string input = Console.ReadLine();
-return Convert.ToDouble(input);
+    Console.Write($"New array: [{array[0]}");
+    for (int i=1; i<array.Length; i++)
+        Console.Write($", {array[i]}");
+    Console.WriteLine("]");
 }
 
-double x1 = PromptDouble("Input A(x) > ");
-double y1 = PromptDouble("Input A(y) > ");
-double z1 = PromptDouble("Input A(z) > ");
-double x2 = PromptDouble("Input B(x) > ");
-double y2 = PromptDouble("Input B(y) > ");
-double z2 = PromptDouble("Input B(z) > ");
-
-Console.WriteLine($"The distance between A and B is: {Math.Round(GetDistance3D(x1,y1,z1,x2,y2,z2), 2)}");
-*/
-// Напишите программу, которая принимает на вход число (N) и выдаёт таблицу кубов чисел от 1 до N.
-// 3 -> 1, 8, 27
-// 5 -> 1, 8, 27, 64, 125
-
-void PrintPowerTable(int number, int power)
-{
-    int i=1;
-    while (i <= number)
-    {
-        Console.WriteLine($"{i} ^ {power} = {Math.Pow(i, power)}");
-        i++;
-    }
-}
-int num = PromptInt("Enter a N > ");
-PrintPowerTable(num, 3);
+int n = PromptInt("Enter an array size > ");
+int max = PromptInt("Enter a maximum element value > ");
+int[] array = new int[n];
+FillArray(array, max);
+PrintArray(array);
