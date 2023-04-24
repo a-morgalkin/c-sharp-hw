@@ -6,68 +6,120 @@ int result = Convert.ToInt32(input);
 return result;
 }
 
-// Задача 25: Напишите цикл, который принимает на вход два числа (A и B) и 
-// возводит число A в натуральную степень B.
-// 3, 5 -> 243 (3⁵)
-// 2, 4 -> 16
-/*
-string exit = "n";
-int numA;
-int numB;
-while (exit != "y")
+double PromptDouble(string message)
 {
-    numA = PromptInt("Enter a number A > ");
-    numB = PromptInt("Enter a number B > ");
-    Console.WriteLine($"{numA} ^ {numB} = {Math.Pow(numA, numB)}");
-    Console.Write("Exit ? (y/n) > ");
-    exit = Console.ReadLine().ToLower();
-}
-*/
-
-// Задача 27: Напишите программу, которая принимает на вход число и 
-// выдаёт сумму цифр в числе.
-// 452 -> 11
-// 82 -> 10
-// 9012 -> 12
-/*
-int SumDigits(int num)
-{
-    int result =0;
-    num = Math.Abs(num);
-    while (num != 0)
-    {
-        result += num % 10;
-        num /= 10;
-    }
-    return result;
-}
-int num = PromptInt("Enter a number > ");
-Console.WriteLine($"Sum of digtits : {SumDigits(num)}");
-*/
-
-// Задача 29: Напишите программу, 
-// которая задаёт массив из 8 элементов и выводит их на экран.
-// 1, 2, 5, 7, 19 -> [1, 2, 5, 7, 19]
-// 6, 1, 33 -> [6, 1, 33]
-
-void FillArray(int[] array, int max)
-{
-    Random rnd = new Random();
-    for (int i=0; i<array.Length; i++)
-        array[i]=rnd.Next(max+1);
-    return;
+Console.Write(message);
+string input = Console.ReadLine();
+double result = Convert.ToDouble(input);
+return result;    
 }
 
-void PrintArray(int[] array)
+void PrintArray(string message, int[] array)
 {
-    Console.Write($"New array: [{array[0]}");
+    Console.Write($"{message} [{array[0]}");
     for (int i=1; i<array.Length; i++)
         Console.Write($", {array[i]}");
     Console.WriteLine("]");
 }
 
-int n = PromptInt("Enter an array size > ");
-int max = PromptInt("Enter a maximum element value > ");
-int[] array = new int[n];
-FillArray(array, max);
-PrintArray(array);
+int[] CreateIntRandomArray(int size, int minValue, int maxValue)
+{
+    int[] array = new int[size];
+    for(int i = 0; i < size; i++)
+        array[i] = new Random().Next(minValue, maxValue + 1);
+    return array;
+}
+
+
+// Задача 34: Задайте массив заполненный случайными положительными трёхзначными числами. 
+// Напишите программу, которая покажет количество чётных чисел в массиве.
+// [345, 897, 568, 234] -> 2
+/*
+void PrintArrayEvenNumbers(string message, int[] array)
+{
+    string separator = "";
+    Console.Write($"{message}");
+    for (int i=0; i<array.Length; i++)
+        if (array[i] % 2 == 0)
+        {
+            Console.Write($"{separator}{array[i]}");
+            separator = ", ";
+        }
+    Console.WriteLine("");
+}
+
+int size34 = PromptInt("Enter an array size > ");
+int[] array34 = CreateIntRandomArray(size34, 100, 999);
+PrintArray("New random array : ", array34);
+PrintArrayEvenNumbers("Only even numbers in array : ", array34);
+*/
+// Задача 36: Задайте одномерный массив, заполненный случайными числами. 
+// Найдите сумму элементов, стоящих на нечётных позициях.
+// [3, 7, 23, 12] -> 19
+// [-4, -6, 89, 6] -> 0
+/*
+int GetSumOddElements(int[] array)
+{
+    int result = 0;
+    for (int i=0; i<array.Length; i++)
+        if ((i+1)%2==1)
+            result += array[i];
+    return result;
+}
+
+int size36 = PromptInt("Enter an array size > ");
+int minV = PromptInt("Enter a minimum value > ");
+int maxV = PromptInt("Enter a maximum value > ");
+int[] array36 = CreateIntRandomArray(size36, minV, maxV);
+PrintArray("New random array : ", array36);
+Console.WriteLine($"Sum of odd elements : {GetSumOddElements(array36)}");
+*/
+// Задача 38: Задайте массив вещественных чисел. 
+// Найдите разницу между максимальным и минимальным элементов массива.
+// [3 7 22 2 78] -> 76
+
+void FillDoubleArray(double[] array)
+{
+    for (int i=0; i<array.Length; i++)
+    {
+        array[i] = PromptDouble($"Enter {i+1} element > ");
+    }
+}
+
+double VisibleDouble(double number) {
+    return Math.Round(number,2);
+}
+
+void PrintDblArray(string message, double[] array)
+{
+    Console.Write($"{message} [{VisibleDouble(array[0])}");
+    for (int i=1; i<array.Length; i++)
+        Console.Write($", {VisibleDouble(array[i])}");
+    Console.WriteLine("]");
+}
+
+double GetMinDbl(double[] array)
+{
+    double minValue = double.MaxValue;
+    for (int i=0; i<array.Length; i++)
+        if (array[i]<minValue) minValue=array[i];
+    return minValue;
+}
+
+double GetMaxDbl(double[] array)
+{
+    double maxValue = double.MinValue;
+    for (int i=0; i<array.Length; i++)
+        if (array[i]>maxValue) maxValue=array[i];
+    return maxValue;
+}
+
+int size38 = PromptInt("Enter an array size > ");
+double[] array38 = new double[size38];
+FillDoubleArray(array38);
+PrintDblArray("New handmade array : ", array38);
+double minVal = GetMinDbl(array38);// find min
+double maxVal = GetMaxDbl(array38);// find max
+Console.WriteLine($"Diffrence beetween max and min : {VisibleDouble(maxVal-minVal)}");// print diffrence
+
+
