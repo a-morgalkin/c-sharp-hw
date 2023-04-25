@@ -14,112 +14,81 @@ double result = Convert.ToDouble(input);
 return result;    
 }
 
-void PrintArray(string message, int[] array)
+int[] GetHandArray(int size)
 {
-    Console.Write($"{message} [{array[0]}");
-    for (int i=1; i<array.Length; i++)
-        Console.Write($", {array[i]}");
-    Console.WriteLine("]");
-}
-
-int[] CreateIntRandomArray(int size, int minValue, int maxValue)
-{
-    int[] array = new int[size];
-    for(int i = 0; i < size; i++)
-        array[i] = new Random().Next(minValue, maxValue + 1);
-    return array;
-}
-
-
-// Задача 34: Задайте массив заполненный случайными положительными трёхзначными числами. 
-// Напишите программу, которая покажет количество чётных чисел в массиве.
-// [345, 897, 568, 234] -> 2
-/*
-void PrintArrayEvenNumbers(string message, int[] array)
-{
-    string separator = "";
-    Console.Write($"{message}");
-    for (int i=0; i<array.Length; i++)
-        if (array[i] % 2 == 0)
-        {
-            Console.Write($"{separator}{array[i]}");
-            separator = ", ";
-        }
-    Console.WriteLine("");
-}
-
-int size34 = PromptInt("Enter an array size > ");
-int[] array34 = CreateIntRandomArray(size34, 100, 999);
-PrintArray("New random array : ", array34);
-PrintArrayEvenNumbers("Only even numbers in array : ", array34);
-*/
-// Задача 36: Задайте одномерный массив, заполненный случайными числами. 
-// Найдите сумму элементов, стоящих на нечётных позициях.
-// [3, 7, 23, 12] -> 19
-// [-4, -6, 89, 6] -> 0
-/*
-int GetSumOddElements(int[] array)
-{
-    int result = 0;
-    for (int i=0; i<array.Length; i++)
-        if ((i+1)%2==1)
-            result += array[i];
-    return result;
-}
-
-int size36 = PromptInt("Enter an array size > ");
-int minV = PromptInt("Enter a minimum value > ");
-int maxV = PromptInt("Enter a maximum value > ");
-int[] array36 = CreateIntRandomArray(size36, minV, maxV);
-PrintArray("New random array : ", array36);
-Console.WriteLine($"Sum of odd elements : {GetSumOddElements(array36)}");
-*/
-// Задача 38: Задайте массив вещественных чисел. 
-// Найдите разницу между максимальным и минимальным элементов массива.
-// [3 7 22 2 78] -> 76
-
-void FillDoubleArray(double[] array)
-{
-    for (int i=0; i<array.Length; i++)
+    int[] result = new int[size];
+    for (int i=0; i<result.Length; i++)
     {
-        array[i] = PromptDouble($"Enter {i+1} element > ");
+        result[i] = PromptInt($"Enter {i+1} element > ");
     }
+    return result;
 }
 
 double VisibleDouble(double number) {
     return Math.Round(number,2);
 }
 
-void PrintDblArray(string message, double[] array)
-{
-    Console.Write($"{message} [{VisibleDouble(array[0])}");
-    for (int i=1; i<array.Length; i++)
-        Console.Write($", {VisibleDouble(array[i])}");
-    Console.WriteLine("]");
-}
+// Задача 41: Пользователь вводит с клавиатуры M чисел. 
+// Посчитайте, сколько чисел больше 0 ввёл пользователь.
+// 0, 7, 8, -2, -2 -> 2
+// 1, -7, 567, 89, 223-> 3
 
-double GetMinDbl(double[] array)
+int GetPositiveQty(int[] array)
 {
-    double minValue = double.MaxValue;
+    int count = 0;
     for (int i=0; i<array.Length; i++)
-        if (array[i]<minValue) minValue=array[i];
-    return minValue;
+        if (array[i]>0) count++;
+    return count;
 }
 
-double GetMaxDbl(double[] array)
+int numM = PromptInt("Enter a M number > ");
+int[] array41 = GetHandArray(numM);
+Console.WriteLine($"Quantity of positive numbers : {GetPositiveQty(array41)}");
+
+// Задача 43: Напишите программу, которая найдёт точку пересечения двух прямых, 
+// заданных уравнениями y = k1 * x + b1, y = k2 * x + b2; 
+// значения b1, k1, b2 и k2 задаются пользователем.
+// b1 = 2, k1 = 5, b2 = 4, k2 = 9 -> (-0,5; -0,5)
+
+double[] IntersectionLines(double[] line1, double[] line2)
 {
-    double maxValue = double.MinValue;
-    for (int i=0; i<array.Length; i++)
-        if (array[i]>maxValue) maxValue=array[i];
-    return maxValue;
+    int k = 0;
+    int b = 1;
+    double x = (line2[b] - line1[b])/(line1[k] - line2[k]);
+    double y = line1[k]*x + line1[b];
+    double[] point = {x, y};
+    return point;
 }
 
-int size38 = PromptInt("Enter an array size > ");
-double[] array38 = new double[size38];
-FillDoubleArray(array38);
-PrintDblArray("New handmade array : ", array38);
-double minVal = GetMinDbl(array38);// find min
-double maxVal = GetMaxDbl(array38);// find max
-Console.WriteLine($"Diffrence beetween max and min : {VisibleDouble(maxVal-minVal)}");// print diffrence
+double[] PromptLine(int index)
+{
+    double k = PromptDouble($"Enter k{index} > ");
+    double b = PromptDouble($"Enter b{index} > ");
+    double[] line = {k, b};
+    return line;
+}
 
+void ShowPoint(string message, double[] point) {
+    Console.Write($"{message} ({VisibleDouble(point[0])}, {VisibleDouble(point[1])})");
+}
 
+bool IsParallel(double[] line1, double[] line2) {
+    return line1[0] == line2[0];
+}
+
+bool IsEqual(double[] line1, double[] line2) {
+    return (line1[0]==line2[0]) && (line1[1]==line2[1]);
+}
+
+double[] line1  = PromptLine(1);
+double[] line2  = PromptLine(2);
+if (!IsParallel(line1, line2))
+    {
+        double[] point = IntersectionLines(line1, line2);
+        ShowPoint("Intersection point : ", point);
+    }
+else if (IsEqual(line1, line2))
+    Console.WriteLine("Upss... Lines are equal!");
+else
+    Console.WriteLine("Upss... Lines are parallel!");
+    
