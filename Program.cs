@@ -14,81 +14,118 @@ double result = Convert.ToDouble(input);
 return result;    
 }
 
-int[] GetHandArray(int size)
+void PrintInt2dArray(int[,] array, int colWide = 8)
 {
-    int[] result = new int[size];
-    for (int i=0; i<result.Length; i++)
+    for(int i = 0; i<array.GetLength(0); i++)
     {
-        result[i] = PromptInt($"Enter {i+1} element > ");
+        for(int j=0; j<array.GetLength(1); j++)
+            Console.Write(Convert.ToString(array[i,j]).PadLeft(colWide));
+        Console.WriteLine();
     }
-    return result;
 }
 
-double VisibleDouble(double number) {
-    return Math.Round(number,2);
-}
-
-// Задача 41: Пользователь вводит с клавиатуры M чисел. 
-// Посчитайте, сколько чисел больше 0 ввёл пользователь.
-// 0, 7, 8, -2, -2 -> 2
-// 1, -7, 567, 89, 223-> 3
-
-int GetPositiveQty(int[] array)
+int[,] CrRandomInt2dArray(int lines, int columns, int maxValue)
 {
-    int count = 0;
-    for (int i=0; i<array.Length; i++)
-        if (array[i]>0) count++;
-    return count;
+    int[,] array = new int[lines, columns];
+    for(int i = 0; i<lines; i++)
+        for(int j=0; j<columns; j++)
+            array[i,j] = new Random().Next(maxValue+1);
+    return array;
 }
 
-int numM = PromptInt("Enter a M number > ");
-int[] array41 = GetHandArray(numM);
-Console.WriteLine($"Quantity of positive numbers : {GetPositiveQty(array41)}");
+// Задача 47. Задайте двумерный массив размером m×n, заполненный случайными вещественными числами.
+// m = 3, n = 4.
+// 0,5 7 -2 -0,2
+// 1 -3,3 8 -9,9
+// 8 7,8 -7,1 9
 
-// Задача 43: Напишите программу, которая найдёт точку пересечения двух прямых, 
-// заданных уравнениями y = k1 * x + b1, y = k2 * x + b2; 
-// значения b1, k1, b2 и k2 задаются пользователем.
-// b1 = 2, k1 = 5, b2 = 4, k2 = 9 -> (-0,5; -0,5)
-
-double[] IntersectionLines(double[] line1, double[] line2)
+/*
+double[,] CrRandomDbr2dArray(int lines, int columns, double maxValue)
 {
-    int k = 0;
-    int b = 1;
-    double x = (line2[b] - line1[b])/(line1[k] - line2[k]);
-    double y = line1[k]*x + line1[b];
-    double[] point = {x, y};
-    return point;
+    double[,] array = new double[lines, columns];
+    for(int i = 0; i<lines; i++)
+        for(int j=0; j<columns; j++)
+            array[i,j] = new Random().NextDouble() * maxValue 
+                      * (new Random().NextDouble() > 0.5 ? 1: -1);
+    return array;
 }
 
-double[] PromptLine(int index)
+void PrintDbl2dArray(double[,] array)
 {
-    double k = PromptDouble($"Enter k{index} > ");
-    double b = PromptDouble($"Enter b{index} > ");
-    double[] line = {k, b};
-    return line;
-}
-
-void ShowPoint(string message, double[] point) {
-    Console.Write($"{message} ({VisibleDouble(point[0])}, {VisibleDouble(point[1])})");
-}
-
-bool IsParallel(double[] line1, double[] line2) {
-    return line1[0] == line2[0];
-}
-
-bool IsEqual(double[] line1, double[] line2) {
-    return (line1[0]==line2[0]) && (line1[1]==line2[1]);
-}
-
-double[] line1  = PromptLine(1);
-double[] line2  = PromptLine(2);
-if (!IsParallel(line1, line2))
+    for(int i = 0; i<array.GetLength(0); i++)
     {
-        double[] point = IntersectionLines(line1, line2);
-        ShowPoint("Intersection point : ", point);
+        for(int j=0; j<array.GetLength(1); j++)
+            Console.Write(array[i,j].ToString("0.00").PadLeft(8));
+        Console.WriteLine();
     }
-else if (IsEqual(line1, line2))
-    Console.WriteLine("Upss... Lines are equal!");
+}
+
+int m = PromptInt("Enter an array size (lines) > ");
+int n = PromptInt("Enter an array size (columns) > ");
+double max = PromptDouble("Enter a max abs value (double) > ");
+double[,] myArray47 = CrRandomDbr2dArray(m, n, max);
+PrintDbl2dArray(myArray47);
+*/
+
+// Задача 50. Напишите программу, которая на вход принимает позиции элемента в двумерном массиве,
+// и возвращает значение этого элемента или же указание, что такого элемента нет.
+// Например, задан массив:
+// 1 4 7 2
+// 5 9 2 3
+// 8 4 2 4
+// 1 7 -> числа с такими индексами в массиве нет
+/*
+bool OutOfRange2d(int i, int j, int[,] array)
+{
+    if (i >= 0 &&
+        i < array.GetLength(0) && 
+        j >= 0 &&
+        j < array.GetLength(1)) 
+            return false;
+    return true;
+}
+
+int[,] myArray50 = CrRandomInt2dArray(5, 5, 10);
+PrintInt2dArray(myArray50, 6);
+int i = PromptInt("Enter i index for array [i, j] > ");
+int j = PromptInt("Enter j index for array [i, j] > ");
+if (OutOfRange2d(i, j, myArray50))
+    Console.WriteLine($"No element [{i}, {j}] in this array");
 else
-    Console.WriteLine("Upss... Lines are parallel!");
-    
+    Console.WriteLine($"Element [{i}, {j}] value: {myArray50[i,j]}");
+*/
+
+// Задача 52. Задайте двумерный массив из целых чисел. Найдите среднее арифметическое элементов в каждом столбце.
+// Например, задан массив:
+// 1 4 7 2
+// 5 9 2 3
+// 8 4 2 4
+// Среднее арифметическое каждого столбца: 4,6; 5,6; 3,6; 3.
+
+double GetColAverage(int[,] array, int column)
+{
+// double[] colAverage = new double[array.GetLength(1)];
+double sum = 0;
+// double colAverage=0;
+for (int i=0; i < array.GetLength(0); i++)
+    sum += array[i,column];
+// colAverage = sum/array.GetLength(0);
+return sum / array.GetLength(0);
+}
+
+void PrintColAverage(int[,] array, int colWide = 8)
+{
+for (int j=0; j<array.GetLength(1);j++)
+    Console.Write(GetColAverage(array,j).ToString("0.00").PadLeft(colWide));
+Console.WriteLine();
+}
+
+int m52 = PromptInt("Enter an array size (lines) > ");
+int n52 = PromptInt("Enter an array size (columns) > ");
+int max52 = PromptInt("Enter a max value (integer) > ");
+int wide = Convert.ToInt32(Math.Log10(max52) + 4);
+int[,] myArray52 = CrRandomInt2dArray(m52, n52, max52);
+Console.WriteLine("Your array :");
+PrintInt2dArray(myArray52, wide);
+Console.WriteLine("Average :");
+PrintColAverage(myArray52, wide);
